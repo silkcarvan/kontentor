@@ -1,0 +1,19 @@
+name = "kontentor"
+main = "web/src/index.ts"
+compatibility_date = "2025-02-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Workers AI (FLUX.1 Schnell & Kimi/Clef) — works automatically with 0 config
+[ai]
+binding = "AI"
+
+# Public Environment Variables (Secrets like LUNA_API_KEY & GEMINI_API_KEY added in Cloudflare Dashboard)
+[vars]
+APP_ENV = "production"
+PUBLIC_SIGNUP_ENABLED = "false"
+LUNA_BASE_URL = "https://api.experientiallabs.ai/v1"
+LUNA_MODEL = "gpt-6-luna"
+GEMINI_MODEL = "gemini-4-hydrogen"
+FLUX_MODEL = "@cf/black-forest-labs/flux-1-schnell"
+MODERATION_MODEL = "@cf/cloudflare/clef-27b"
+RENDER_WORKER_URL = "http://localhost:8080"
