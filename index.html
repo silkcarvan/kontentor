@@ -8,14 +8,14 @@
   <meta name="keywords" content="Kontentor, Contentor, Kontentor AI, Contentor AI, Kontent, Kontent AI, AI Kontent yaratish, Central Asian History, Amir Temur, Samarkand History, Ulugh Beg, AI YouTube Automation" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <meta name="google-site-verification" content="GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE" />
-  <link rel="canonical" href="https://kontentor.ipakcarvoni.workers.dev/" />
+  <link rel="canonical" href="https://kontentor.pages.dev/" />
 
   <!-- OpenGraph / Facebook / Telegram Rich Preview -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Kontentor (Contentor) AI" />
   <meta property="og:title" content="Kontentor (Contentor) AI — Autonomous Kontent & YouTube Studio" />
   <meta property="og:description" content="Kontentor (Contentor) AI: 100% Autonomous YouTube Documentaries, Shorts & Kontent Studio powered by GPT-6 Luna, Gemini 4 Hydrogen, and Cloudflare FLUX." />
-  <meta property="og:url" content="https://kontentor.ipakcarvoni.workers.dev/" />
+  <meta property="og:url" content="https://kontentor.pages.dev/" />
 
   <!-- Schema.org JSON-LD for Google Search #1 Rich Snippets (Kontentor / Contentor / Kontent AI) -->
   <script type="application/ld+json">
@@ -26,7 +26,7 @@
         "@type": "WebSite",
         "name": "Kontentor AI",
         "alternateName": ["Kontentor", "Contentor", "Contentor AI", "Kontent AI", "Kontentor Studio"],
-        "url": "https://kontentor.ipakcarvoni.workers.dev/"
+        "url": "https://kontentor.pages.dev/"
       },
       {
         "@type": "SoftwareApplication",
@@ -360,6 +360,7 @@
       </div>
     </div>
     <button class="new-chat-btn" onclick="startNewChat()">+ Yangi Video / Chat</button>
+    <button class="new-chat-btn" style="border-color:rgba(239,68,68,0.4); background:rgba(239,68,68,0.12); color:#f87171;" onclick="resetToZero()">🔄 0 ga Tushirish (Toza Holat)</button>
     <div class="nav-tabs">
       <button id="tabChatBtn" class="nav-btn active" onclick="switchTab('chat')">💬 AI Chat & Video Studio</button>
       <button id="tabAnalyticsBtn" class="nav-btn" onclick="switchTab('analytics')">📊 Facebook Analitika</button>
@@ -573,13 +574,13 @@
     const DEFAULT_DASHBOARD_DATA = {
       channel: { channel_title: 'Chronicles of Central Asia' },
       kpis: {
-        shorts_credits: 98,
-        long_credits: 20,
-        total_views: 42850,
-        avg_ctr_percent: 11.4,
-        avg_retention_percent: 84.2,
-        estimated_revenue_usd: '274.20',
-        published_videos: 4
+        shorts_credits: 100,
+        long_credits: 50,
+        total_views: 0,
+        avg_ctr_percent: 0,
+        avg_retention_percent: 0,
+        estimated_revenue_usd: '0',
+        published_videos: 0
       },
       connected_stack: {
         step1_luna: true,
@@ -588,31 +589,22 @@
         step4_ffmpeg: true,
         step5_youtube_router: true
       },
-      output_videos: ['/output/amir_temur_short.mp4'],
-      latest_storyboard: {
-        title: 'Amir Temur: Conqueror or Creator of a Golden Age? #Shorts',
-        model_used: 'gpt-6-luna + gemini-4-hydrogen',
-        scenes: [
-          { scene_id: 1, duration: 5.4, motion: 'zoom_in', image_file: 'scene_01.jpg', narration: 'How did a conqueror feared across continents become the spark of Samarkand’s golden age?' },
-          { scene_id: 2, duration: 6.5, motion: 'pan_right', image_file: 'scene_02.jpg', narration: 'Amir Temur forged an empire across Central Asia, Persia, and Afghanistan through relentless campaigns.' },
-          { scene_id: 3, duration: 6.9, motion: 'zoom_out', image_file: 'scene_03.jpg', narration: 'His armies made him one of history’s most formidable commanders, though conquest came at terrible human cost.' },
-          { scene_id: 4, duration: 7.0, motion: 'pan_left', image_file: 'scene_04.jpg', narration: 'Yet Temur also gathered artists, poets, and scholars around his dazzling capital, Samarkand.' },
-          { scene_id: 5, duration: 6.6, motion: 'zoom_in', image_file: 'scene_05.jpg', narration: 'At Damascus, he met historian Ibn Khaldun, a striking encounter between conqueror and chronicler.' },
-          { scene_id: 6, duration: 5.5, motion: 'tilt_up', image_file: 'scene_06.jpg', narration: 'Timurid patronage helped nourish a Renaissance of architecture, art, and learning.' },
-          { scene_id: 7, duration: 4.7, motion: 'zoom_in', image_file: 'scene_07.jpg', narration: 'So was Temur only a destroyer—or the ruler whose empire made Samarkand shine?' }
-        ]
-      },
+      output_videos: [],
+      latest_storyboard: {},
       style_memory: {
-        lessons_learned: [
-          { date: '2026-11-12', insight: 'Golden Sepia Historical Graphic Novel visuals + paradox question hook in first 3s boosted Shorts retention to 84.2%.' },
-          { date: '2026-11-12', insight: 'Subtitles positioned in Safe Zone (y=1130, 59% height) prevented overlap with YouTube Shorts right-side buttons and bottom channel bar.' }
-        ]
+        lessons_learned: []
       },
-      projects: [
-        { topic: 'Amir Temur: Conqueror or Creator of a Golden Age?', video_type: 'shorts', status: 'completed', views: 19400, ctr_percent: 12.1, avg_view_percentage: 86, learned_rule: 'Strong 3s paradox hook + Safe-Zone subtitles + Mark/Andrew mastered voice' },
-        { topic: 'Mirzo Ulugh Beg: The Astronomer King of Samarkand', video_type: 'shorts', status: 'completed', views: 14250, ctr_percent: 10.8, avg_view_percentage: 82, learned_rule: 'Samarkand observatory golden starlight visuals increased completion rate' }
-      ]
+      projects: []
     };
+
+    async function resetToZero() {
+      try {
+        await fetch('/api/reset', { method: 'POST' });
+      } catch (_) {}
+      initialChatRendered = false;
+      document.getElementById('chatStream').innerHTML = '';
+      await loadDashboard();
+    }
 
     async function loadDashboard() {
       let data = DEFAULT_DASHBOARD_DATA;
@@ -633,33 +625,44 @@
 
       renderStackBadges(data.connected_stack || {});
 
-      const videosList = (data.output_videos && data.output_videos.length) ? data.output_videos : DEFAULT_DASHBOARD_DATA.output_videos;
+      const videosList = data.output_videos || [];
       const recentEl = document.getElementById('recentVideosList');
       recentEl.innerHTML = '';
-      videosList.forEach(vUrl => {
-        const name = vUrl.split('/').pop();
-        const btn = document.createElement('button');
-        btn.className = 'recent-item';
-        btn.textContent = '🎬 ' + name;
-        btn.onclick = () => {
-          switchTab('chat');
-          appendAiMessage('Tayyor Video: ' + name, 'Saqlangan MP4 fayl:', ['Local Output'], vUrl, []);
-        };
-        recentEl.appendChild(btn);
-      });
+      if (videosList.length === 0) {
+        recentEl.innerHTML = `<div style="font-size:11.5px; color:var(--muted); padding:4px;">Hozircha video yo'q (0)</div>`;
+      } else {
+        videosList.forEach(vUrl => {
+          const name = vUrl.split('/').pop();
+          const btn = document.createElement('button');
+          btn.className = 'recent-item';
+          btn.textContent = '🎬 ' + name;
+          btn.onclick = () => {
+            switchTab('chat');
+            appendAiMessage('Tayyor Video: ' + name, 'Saqlangan MP4 fayl:', ['Local Output'], vUrl, []);
+          };
+          recentEl.appendChild(btn);
+        });
+      }
 
       if (!initialChatRendered) {
         initialChatRendered = true;
-        const sb = (data.latest_storyboard && data.latest_storyboard.scenes) ? data.latest_storyboard : DEFAULT_DASHBOARD_DATA.latest_storyboard;
-        const amirVideo = videosList.find(v => v.includes('amir_temur')) || videosList[0] || '/output/amir_temur_short.mp4';
-        if (sb.scenes) {
-          appendUserMessage('Amir Temur haqida 0 dan inglizcha Shorts video yaratib ber.');
+        if (videosList.length === 0) {
           appendAiMessage(
-            sb.title || 'Amir Temur #Shorts',
-            '5-bosqichli pipeline yakunlandi! GPT-6 Luna + Gemini 4 Hydrogen ssenariysi, 7 ta HD kadr, ElevenLabs Mark / Edge-TTS Andrew ovoz va YouTube Shorts Safe-Zone subtitrlar bilan tayyor.',
-            ['Model: ' + (sb.model_used || 'gpt-6-luna'), 'Voice: Mark / AndrewNeural', 'Scenes: ' + sb.scenes.length],
-            amirVideo,
-            sb.scenes,
+            'Tizim 0 holatida tayyor!',
+            'Barcha hisoblagichlar va videolar 0 ga tushirildi. Mavzu yozing (yoki pastdagi tayyor tugmalardan birini bosing) va «0 dan Video Qilish» tugmasini bosing — 5 bosqichda yangi MP4 video tayyorlab beraman.',
+            ['GPT-6 Luna', 'Gemini 4 Hydrogen', 'Cloudflare FLUX', 'ElevenLabs Mark / Edge-TTS', 'FFmpeg Safe-Zone'],
+            null,
+            null
+          );
+        } else {
+          const sb = data.latest_storyboard || {};
+          const firstVid = videosList[0];
+          appendAiMessage(
+            sb.title || 'Tayyor Video',
+            'Oxirgi yaratilgan video tayyor:',
+            ['Model: ' + (sb.model_used || 'gpt-6-luna'), 'Scenes: ' + ((sb.scenes || []).length)],
+            firstVid,
+            sb.scenes || [],
             '/projects/amir_temur/images'
           );
         }

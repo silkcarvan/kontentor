@@ -3,11 +3,18 @@ main = "src/index.ts"
 compatibility_date = "2025-02-01"
 compatibility_flags = ["nodejs_compat"]
 
-# Cloudflare Workers AI (FLUX.1 Schnell & Kimi/Clef) — works automatically with 0 config
+# 1. Cloudflare D1 Database (SQLite - Created & Migrated automatically)
+[[d1_databases]]
+binding = "DB"
+database_name = "kontentor-db"
+database_id = "5292677e-f113-4e5a-8aa4-f15d109f0acc"
+migrations_dir = "migrations"
+
+# 2. Cloudflare Workers AI (FLUX.1 Schnell & Kimi/Clef)
 [ai]
 binding = "AI"
 
-# Public Environment Variables (Secrets like LUNA_API_KEY & GEMINI_API_KEY added in Cloudflare Dashboard)
+# 3. Public Environment Variables (Secrets LUNA_API_KEY & GEMINI_API_KEY configured on Worker)
 [vars]
 APP_ENV = "production"
 PUBLIC_SIGNUP_ENABLED = "false"
@@ -16,15 +23,4 @@ LUNA_MODEL = "gpt-6-luna"
 GEMINI_MODEL = "gemini-4-hydrogen"
 FLUX_MODEL = "@cf/black-forest-labs/flux-1-schnell"
 MODERATION_MODEL = "@cf/cloudflare/clef-27b"
-RENDER_WORKER_URL = "http://localhost:8080"
-
-# Optional D1 & R2 (Uncomment after running `npx wrangler d1 create kontentor-db` & `npx wrangler r2 bucket create kontentor-media`):
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "kontentor-db"
-# database_id = "YOUR_D1_DATABASE_ID"
-# migrations_dir = "migrations"
-#
-# [[r2_buckets]]
-# binding = "MEDIA_BUCKET"
-# bucket_name = "kontentor-media"
+RENDER_WORKER_URL = "http://localhost:8091"

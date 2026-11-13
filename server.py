@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Kontentor Web Studio — ChatGPT/Claude-Style AI Chat + Facebook Analytics Server."""
+"""Kontentor Web Studio — Clean 0-State Local AI Chat, Video Generator & Analytics Server."""
 
+import argparse
 import json
 import mimetypes
+import re
+import shutil
 import sqlite3
 import uuid
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -17,6 +20,7 @@ from kontentor.config import (
     PROJECTS_DIR,
     load_credentials,
     load_style_memory,
+    save_style_memory,
 )
 from kontentor.pipeline import KontentorPipeline
 
@@ -25,13 +29,26 @@ WEB_UI_DIR = BASE_DIR / "web_ui"
 MIGRATION_SQL = BASE_DIR / "web" / "migrations" / "0001_initial_schema.sql"
 
 
-def init_db() -> None:
-    """Initialize D1-compatible SQLite database and seed initial analytics."""
+def init_db(reset: bool = False) -> None:
+    """Initialize D1-compatible SQLite database in a clean 0-state."""
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    PROJECTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    if reset and DB_PATH.exists():
+        DB_PATH.unlink()
+
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     if MIGRATION_SQL.exists():
         conn.executescript(MIGRATION_SQL.read_text(encoding="utf-8"))
+
+    if reset:
+        conn.execute("DELETE FROM channel_analytics_memory")
+        conn.execute("DELETE FROM projects")
+        conn.execute("DELETE FROM youtube_channels")
+        conn.execute("DELETE FROM users")
+        conn.commit()
 
     cur = conn.execute("SELECT COUNT(*) AS cnt FROM users")
     if cur.fetchone()["cnt"] == 0:
@@ -39,81 +56,43 @@ def init_db() -> None:
         channel_id = "ch-central-asia-01"
         conn.execute(
             """INSERT INTO users (id, email, password_hash, role, plan, shorts_credits, long_credits)
-               VALUES (?, ?, ?, 'admin', 'closed_beta', 98, 20)""",
-            (user_id, "admin@kontentor.ai", "pbkdf2_sha256$closed_beta_admin"),
+               VALUES (?, ?, ?, 'admin', 'pro', 100, 50)""",
+            (user_id, "admin@kontentor.ai", "pbkdf2_sha256$local_admin"),
         )
         conn.execute(
             """INSERT INTO youtube_channels (id, user_id, channel_id, channel_title, niche, access_token, refresh_token, token_expiry)
                VALUES (?, ?, 'UC_CENTRAL_ASIA_HIST', 'Chronicles of Central Asia', 'Central Asian History & Culture', 'oauth_placeholder', 'refresh_placeholder', '2027-01-01T00:00:00Z')""",
             (channel_id, user_id),
         )
-        sample_videos = [
-            (
-                "proj-001",
-                "Amir Temur: How a Shepherd's Son Built the Unstoppable Timurid Empire",
-                "shorts",
-                "published",
-                "/output/amir_temur_short.mp4",
-                28450,
-                11.4,
-                86.2,
-                0,
-                "HIGH PERFORMER (86.2% retention, 11.4% CTR): Opening with a glowing parchment question mark + 3s visual metaphor maximizes hook rate.",
-            ),
-            (
-                "proj-002",
-                "Battle of Talas (751 AD) & The Secret of Samarkand Paper",
-                "shorts",
-                "published",
-                "",
-                42190,
-                12.8,
-                89.5,
-                0,
-                "VIRAL HOOK (89.5% retention): Explaining how 1 parchment book cost an entire flock of sheep before Samarkand paper drove massive shares.",
-            ),
-            (
-                "proj-003",
-                "Mirzo Ulugh Beg: Mapping 1,018 Stars in Samarkand Without a Telescope",
-                "long",
-                "published",
-                "",
-                14820,
-                8.9,
-                68.4,
-                145,
-                "LONG-FORM RPM BOOST ($8.40 RPM): US/UK history audience watched 68.4% of the documentary on Samarkand's observatory.",
-            ),
-            (
-                "proj-004",
-                "Al-Khwarizmi: The Central Asian Father of Every Computer Algorithm",
-                "shorts",
-                "published",
-                "",
-                19300,
-                9.7,
-                79.1,
-                18,
-                "TECH + HISTORY CROSSOVER: Connecting medieval Khwarazm to modern AI/smartphones increased comments by 3.2x.",
-            ),
-        ]
-        for pid, topic, vtype, status, vurl, views, ctr, ret, drop, rule in sample_videos:
-            conn.execute(
-                """INSERT INTO projects (id, user_id, channel_id, topic, video_type, status, final_video_r2_url)
-                   VALUES (?, ?, ?, ?, ?, ?, ?)""",
-                (pid, user_id, channel_id, topic, vtype, status, vurl),
-            )
-            conn.execute(
-                """INSERT INTO channel_analytics_memory (id, channel_id, project_id, views, ctr_percent, avg_view_percentage, drop_off_second, learned_rule)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-                (str(uuid.uuid4()), channel_id, pid, views, ctr, ret, drop, rule),
-            )
         conn.commit()
     conn.close()
 
 
+def reset_all_to_zero() -> None:
+    """Reset database, generated outputs, and project folders to a fresh 0 state."""
+    init_db(reset=True)
+    for mp4 in OUTPUT_DIR.glob("*.mp4"):
+        try:
+            mp4.unlink()
+        except OSError:
+            pass
+    for srt in OUTPUT_DIR.glob("*.srt"):
+        try:
+            srt.unlink()
+        except OSError:
+            pass
+    for pdir in PROJECTS_DIR.iterdir():
+        if pdir.is_dir():
+            shutil.rmtree(pdir, ignore_errors=True)
+
+    memory = load_style_memory()
+    memory["completed_topics"] = []
+    memory["lessons_learned"] = []
+    save_style_memory(memory)
+
+
 def get_dashboard_payload() -> dict:
-    """Build complete payload for the Chat Studio & Facebook Analytics UI."""
+    """Build complete payload for the Chat Studio & Analytics UI."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
 
@@ -139,15 +118,26 @@ def get_dashboard_payload() -> dict:
         )
     ]
 
-    # Load latest project storyboard scenes for quick preview in chat
     latest_storyboard = {}
-    amir_sb = PROJECTS_DIR / "amir_temur" / "storyboard.json"
-    if amir_sb.exists():
-        latest_storyboard = json.loads(amir_sb.read_text(encoding="utf-8"))
+    if projects:
+        for pdir in sorted(
+            PROJECTS_DIR.glob("*/storyboard.json"),
+            key=lambda x: x.stat().st_mtime,
+            reverse=True,
+        ):
+            try:
+                latest_storyboard = json.loads(pdir.read_text(encoding="utf-8"))
+                break
+            except Exception:
+                pass
 
     total_views = sum(int(p.get("views") or 0) for p in projects)
-    ctrs = [float(p["ctr_percent"]) for p in projects if p.get("ctr_percent")]
-    rets = [float(p["avg_view_percentage"]) for p in projects if p.get("avg_view_percentage")]
+    ctrs = [float(p["ctr_percent"]) for p in projects if p.get("ctr_percent") is not None]
+    rets = [
+        float(p["avg_view_percentage"])
+        for p in projects
+        if p.get("avg_view_percentage") is not None
+    ]
     avg_ctr = round(sum(ctrs) / len(ctrs), 1) if ctrs else 0.0
     avg_ret = round(sum(rets) / len(rets), 1) if rets else 0.0
     estimated_revenue = round((total_views / 1000.0) * 6.40, 2)
@@ -156,7 +146,7 @@ def get_dashboard_payload() -> dict:
         "user": user,
         "channel": channel,
         "connected_stack": {
-            "step1_luna": bool(creds.get("luna_api_key")),
+            "step1_luna": bool(creds.get("luna_api_key") or creds.get("gemini_api_key")),
             "step2_cloudflare_flux": bool(
                 creds.get("cf_account_id") and creds.get("cf_api_token")
             ),
@@ -182,15 +172,56 @@ def get_dashboard_payload() -> dict:
 
 
 class KontentorHandler(BaseHTTPRequestHandler):
-    """HTTP Handler serving ChatGPT/Claude-Style Studio, MP4 files, and Analytics API."""
+    """Multi-threaded HTTP Handler supporting Byte-Range MP4 streaming & AI Generation."""
 
     def _send_json(self, data: dict, status: int = 200) -> None:
         raw = json.dumps(data, ensure_ascii=False).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Length", str(len(raw)))
         self.end_headers()
         self.wfile.write(raw)
+
+    def _serve_file(self, file_path: Path, default_mime: str) -> None:
+        if not file_path.exists() or not file_path.is_file():
+            self._send_json({"error": "File not found"}, 404)
+            return
+
+        mime, _ = mimetypes.guess_type(str(file_path))
+        content_type = mime or default_mime
+        file_size = file_path.stat().st_size
+        range_header = self.headers.get("Range")
+
+        if range_header:
+            m = re.match(r"bytes=(\d+)-(\d*)", range_header)
+            if m:
+                start = int(m.group(1))
+                end = int(m.group(2)) if m.group(2) else file_size - 1
+                end = min(end, file_size - 1)
+                if start <= end:
+                    length = end - start + 1
+                    with file_path.open("rb") as f:
+                        f.seek(start)
+                        chunk = f.read(length)
+                    self.send_response(206)
+                    self.send_header("Content-Type", content_type)
+                    self.send_header("Accept-Ranges", "bytes")
+                    self.send_header(
+                        "Content-Range", f"bytes {start}-{end}/{file_size}"
+                    )
+                    self.send_header("Content-Length", str(len(chunk)))
+                    self.end_headers()
+                    self.wfile.write(chunk)
+                    return
+
+        data = file_path.read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
@@ -203,7 +234,7 @@ class KontentorHandler(BaseHTTPRequestHandler):
         if path == "/robots.txt":
             robots = (
                 "User-agent: *\nAllow: /\n"
-                "Sitemap: https://kontentor.ai/sitemap.xml\n"
+                "Sitemap: http://127.0.0.1:8090/sitemap.xml\n"
             ).encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "text/plain; charset=utf-8")
@@ -216,8 +247,7 @@ class KontentorHandler(BaseHTTPRequestHandler):
             xml = (
                 '<?xml version="1.0" encoding="UTF-8"?>\n'
                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-                "  <url><loc>https://kontentor.ai/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n"
-                "  <url><loc>https://kontentor.ai/output/amir_temur_short.mp4</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>\n"
+                "  <url><loc>http://127.0.0.1:8090/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n"
                 "</urlset>\n"
             ).encode("utf-8")
             self.send_response(200)
@@ -229,34 +259,21 @@ class KontentorHandler(BaseHTTPRequestHandler):
 
         if path.startswith("/output/"):
             file_path = OUTPUT_DIR / Path(path).name
-            if file_path.exists() and file_path.is_file():
-                data = file_path.read_bytes()
-                mime, _ = mimetypes.guess_type(str(file_path))
-                self.send_response(200)
-                self.send_header("Content-Type", mime or "video/mp4")
-                self.send_header("Content-Length", str(len(data)))
-                self.end_headers()
-                self.wfile.write(data)
-                return
+            self._serve_file(file_path, "video/mp4")
+            return
 
         if path.startswith("/projects/"):
             rel = path.lstrip("/")
             file_path = BASE_DIR / rel
-            if file_path.exists() and file_path.is_file():
-                data = file_path.read_bytes()
-                mime, _ = mimetypes.guess_type(str(file_path))
-                self.send_response(200)
-                self.send_header("Content-Type", mime or "image/jpeg")
-                self.send_header("Content-Length", str(len(data)))
-                self.end_headers()
-                self.wfile.write(data)
-                return
+            self._serve_file(file_path, "image/jpeg")
+            return
 
         index_file = WEB_UI_DIR / "index.html"
         if index_file.exists():
             html = index_file.read_bytes()
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
             self.send_header("Content-Length", str(len(html)))
             self.end_headers()
             self.wfile.write(html)
@@ -269,51 +286,59 @@ class KontentorHandler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", "0"))
         body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
 
+        if parsed.path == "/api/reset":
+            reset_all_to_zero()
+            self._send_json({"ok": True, "message": "Tizim 0 holatiga tozalandi!"})
+            return
+
         if parsed.path == "/api/generate":
-            topic = body.get("topic") or None
-            fmt = body.get("format", "short")
-            voice = body.get("voice", "en-US-AndrewNeural")
-            vtype_db = "shorts" if fmt == "short" else "long"
-            credit_col = "shorts_credits" if fmt == "short" else "long_credits"
+            try:
+                topic = (body.get("topic") or "").strip() or None
+                fmt = body.get("format", "short")
+                voice = body.get("voice", "en-US-AndrewNeural")
+                vtype_db = "shorts" if fmt == "short" else "long"
+                credit_col = "shorts_credits" if fmt == "short" else "long_credits"
 
-            conn = sqlite3.connect(DB_PATH)
-            conn.row_factory = sqlite3.Row
-            user = conn.execute("SELECT * FROM users LIMIT 1").fetchone()
-            if user[credit_col] <= 0:
+                conn = sqlite3.connect(DB_PATH)
+                conn.row_factory = sqlite3.Row
+                user = conn.execute("SELECT * FROM users LIMIT 1").fetchone()
+                if user[credit_col] <= 0:
+                    conn.close()
+                    self._send_json({"error": f"Insufficient {vtype_db} credits!"}, 402)
+                    return
+
+                conn.execute(
+                    f"UPDATE users SET {credit_col} = {credit_col} - 1 WHERE id = ?",
+                    (user["id"],),
+                )
+                conn.commit()
+
+                pipeline = KontentorPipeline(voice_name=voice)
+                res = pipeline.run_autonomous_youtuber(topic=topic, format_type=fmt)
+                vid_name = Path(res["video"]["video_path"]).name
+                vid_url = f"/output/{vid_name}"
+                pid = f"proj-{uuid.uuid4().hex[:6]}"
+
+                conn.execute(
+                    """INSERT INTO projects (id, user_id, channel_id, topic, video_type, status, final_video_r2_url)
+                       VALUES (?, ?, 'ch-central-asia-01', ?, ?, 'published', ?)""",
+                    (pid, user["id"], res["topic"], vtype_db, vid_url),
+                )
+                conn.execute(
+                    """INSERT INTO channel_analytics_memory (id, channel_id, project_id, views, ctr_percent, avg_view_percentage, drop_off_second, learned_rule)
+                       VALUES (?, 'ch-central-asia-01', ?, 0, 0.0, 0.0, 0, ?)""",
+                    (
+                        str(uuid.uuid4()),
+                        pid,
+                        f"0 dan yaratildi: {res['model_used']} + Cloudflare FLUX + {res['voice_used']} ({res['video']['total_duration_seconds']}s)",
+                    ),
+                )
+                conn.commit()
                 conn.close()
-                self._send_json({"error": f"Insufficient {vtype_db} credits!"}, 402)
-                return
 
-            conn.execute(
-                f"UPDATE users SET {credit_col} = {credit_col} - 1 WHERE id = ?",
-                (user["id"],),
-            )
-            conn.commit()
-
-            pipeline = KontentorPipeline(voice_name=voice)
-            res = pipeline.run_autonomous_youtuber(topic=topic, format_type=fmt)
-            vid_name = Path(res["video"]["video_path"]).name
-            vid_url = f"/output/{vid_name}"
-            pid = f"proj-{uuid.uuid4().hex[:6]}"
-
-            conn.execute(
-                """INSERT INTO projects (id, user_id, channel_id, topic, video_type, status, final_video_r2_url)
-                   VALUES (?, ?, 'ch-central-asia-01', ?, ?, 'published', ?)""",
-                (pid, user["id"], res["topic"], vtype_db, vid_url),
-            )
-            conn.execute(
-                """INSERT INTO channel_analytics_memory (id, channel_id, project_id, views, ctr_percent, avg_view_percentage, drop_off_second, learned_rule)
-                   VALUES (?, 'ch-central-asia-01', ?, 1250, 10.4, 83.5, 0, ?)""",
-                (
-                    str(uuid.uuid4()),
-                    pid,
-                    f"5-Step Pipeline ({res['model_used']} + Cloudflare FLUX + {res['voice_used']} + {res['youtube_routing']})",
-                ),
-            )
-            conn.commit()
-            conn.close()
-
-            self._send_json({"ok": True, "result": res, "video_url": vid_url})
+                self._send_json({"ok": True, "result": res, "video_url": vid_url})
+            except Exception as exc:
+                self._send_json({"ok": False, "error": str(exc)}, 500)
             return
 
         if parsed.path == "/api/train":
@@ -334,12 +359,16 @@ class KontentorHandler(BaseHTTPRequestHandler):
         self._send_json({"error": "Unknown endpoint"}, 404)
 
 
-def run_server(port: int = 8765) -> None:
-    init_db()
-    server = HTTPServer(("127.0.0.1", port), KontentorHandler)
+def run_server(port: int = 8090, reset_on_start: bool = False) -> None:
+    init_db(reset=reset_on_start)
+    server = ThreadingHTTPServer(("127.0.0.1", port), KontentorHandler)
     print(f"Kontentor AI Chat & Analytics Studio running at http://127.0.0.1:{port}")
     server.serve_forever()
 
 
 if __name__ == "__main__":
-    run_server()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--port", type=int, default=8090)
+    parser.add_argument("--reset", action="store_true", help="Reset DB to 0 state on startup")
+    args = parser.parse_args()
+    run_server(port=args.port, reset_on_start=args.reset)
