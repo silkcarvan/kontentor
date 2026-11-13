@@ -1,0 +1,82 @@
+{
+  "channel_name": "Chronicles of Central Asia",
+  "language": "en",
+  "niche": "Central Asian History, Silk Road, Great Rulers (Amir Temur, Babur, Tomyris, Jalal al-Din), Scholars (Al-Khwarizmi, Ibn Sina, Ulugh Beg, Al-Biruni), Culture, Traditions & Tourism",
+  "visual_style_dna": {
+    "style_name": "Golden Sepia Historical Graphic Novel",
+    "mandatory_prompt_prefix": "Warm golden-amber and sepia-toned historical graphic novel illustration, bold hand-drawn black ink line art with rich warm watercolor and ochre shading, glowing golden dust particles and sunbeams, cinematic medieval Central Asian / Silk Road atmosphere, intricate historical clothing and turquoise-domed architecture, dramatic storytelling composition, NO text or letters inside the artwork -- ",
+    "mandatory_prompt_suffix": ", 2D historical comic book art style, warm golden color palette, high contrast ink outlines, masterpiece illustration",
+    "negative_prompt": "photorealistic, 3d render, modern clothes, neon colors, cyberpunk, blurry, deformed hands, watermark, signature, embedded text",
+    "shorts_resolution": {
+      "width": 1080,
+      "height": 1920
+    },
+    "long_resolution": {
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "youtuber_persona_rules": [
+    "HOOK (0-3s): Open with a shocking historical paradox, mystery, or visual metaphor that stops the scroll immediately.",
+    "VISUAL METAPHOR IN SCENE 1-2: Translate abstract facts into unforgettable visual symbols (e.g., glowing golden animal spirits rising from an ancient book, or a giant cosmic astrolabe glowing above Samarkand).",
+    "FAST PACING (2.5-3.5s per frame): Every single sentence gets its own brand-new AI-illustrated scene drawn from scratch.",
+    "EMOTIONAL STORYTELLING: Speak like a charismatic, world-class English history YouTuber — never sound like a dry textbook.",
+    "LOOPABLE ENDING: End Shorts with a punchy revelation that naturally loops back to the opening question."
+  ],
+  "few_shot_style_blueprint": {
+    "topic_example": "How Samarkand Paper Sparked the Golden Age",
+    "scene_pacing_example": [
+      {
+        "scene_id": 1,
+        "motion": "zoom_in",
+        "narration": "How did a single battle in Central Asia unlock the greatest secret in human history?",
+        "subtitle": "HOW ONE BATTLE CHANGED HISTORY",
+        "image_prompt": "An ancient crumpled parchment scroll in the foreground with a glowing golden question mark, while a medieval Central Asian cavalry battle rages in golden smoke above it."
+      },
+      {
+        "scene_id": 2,
+        "motion": "zoom_out",
+        "narration": "For centuries, making just one book required the skins of an entire flock of sheep.",
+        "subtitle": "ONE BOOK = AN ENTIRE FLOCK OF SHEEP",
+        "image_prompt": "A thick leather-bound ancient manuscript on a wooden table surrounded by glowing golden spirit outlines of dozens of sheep and goats floating in warm sunbeams."
+      }
+    ]
+  },
+  "autonomous_topic_queue": [
+    "Amir Temur: How a Shepherd's Son Built the Unstoppable Timurid Empire",
+    "Ulugh Beg: The Samarkand Sultan Who Mapped 1,018 Stars Before the Telescope",
+    "Al-Khwarizmi: How a Central Asian Scholar Created Algebra and Algorithms",
+    "Ibn Sina (Avicenna): The Bukhara Genius Who Invented Quarantine and Modern Medicine",
+    "Queen Tomyris: The Fearless Central Asian Queen Who Defeated Cyrus the Great",
+    "Al-Biruni: How a Khwarazm Polymath Measured the Earth's Radius in 1000 AD",
+    "Registan of Samarkand: The Architectural Wonder at the Heart of the Silk Road",
+    "Babur: From Fergana Valley to Founding the Legendary Mughal Empire"
+  ],
+  "lessons_learned": [
+    {
+      "date": "2026-11-12",
+      "metric_source": "style_calibration",
+      "insight": "Always generate 100% original illustrations from scratch for every scene using the Golden Sepia Historical Graphic Novel DNA. Never reuse old images."
+    },
+    {
+      "date": "2026-11-12",
+      "metric_source": "Amir Temur: How a Shepherd's Son Built the Unstoppable Timurid Empire",
+      "insight": "HIGH PERFORMER (86.2% retention, 11.4% CTR): 'Amir Temur: How a Shepherd's Son Built the Unstoppable Timurid Empire' succeeded with vivid visual metaphors in Scenes 1-2. Keep this hook pattern."
+    },
+    {
+      "date": "2026-11-12",
+      "metric_source": "Battle of Talas (751 AD) & The Secret of Samarkand Paper",
+      "insight": "HIGH PERFORMER (89.5% retention, 12.8% CTR): 'Battle of Talas (751 AD) & The Secret of Samarkand Paper' succeeded with vivid visual metaphors in Scenes 1-2. Keep this hook pattern."
+    },
+    {
+      "date": "2026-11-12",
+      "metric_source": "Al-Khwarizmi: The Central Asian Father of Every Computer Algorithm",
+      "insight": "HIGH PERFORMER (79.1% retention, 9.7% CTR): 'Al-Khwarizmi: The Central Asian Father of Every Computer Algorithm' succeeded with vivid visual metaphors in Scenes 1-2. Keep this hook pattern."
+    }
+  ],
+  "completed_topics": [
+    "Amir Temur: How a Shepherd's Son Built the Unstoppable Timurid Empire",
+    "Alisher Navoiy hayoti",
+    "Amir Temur"
+  ]
+}

@@ -1,0 +1,17 @@
+# Environment & Secrets (NEVER commit)
+.env
+.env.*
+!.env.example
+
+# Virtual Environment & Python Cache
+.venv/
+__pycache__/
+*.pyc
+
+# Local SQLite & Build Artifacts
+data/*.sqlite
+output/*.mp4
+projects/*/build/
+projects/*/audio/*.mp3
+projects/*/images/*.jpg
+.DS_Store

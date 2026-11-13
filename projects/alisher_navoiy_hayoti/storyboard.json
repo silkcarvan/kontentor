@@ -1,0 +1,70 @@
+{
+  "title": "Dilbar Abdurahmonova #Shorts",
+  "description": "Dilbar Gʻulomovna Abdurahmonova was a Soviet and Uzbek conductor, violinist, educator, and People's Artist of the USSR (1977). She was born on May 1, 1936, in Moscow and died on March 20, 2018, in Tashkent. She was the first female conductor in Uzbekistan.\n\n#CentralAsia #History #SilkRoad #Samarkand #Shorts",
+  "tags": [
+    "Central Asia",
+    "Silk Road",
+    "History",
+    "Samarkand",
+    "Dilbar Abdurahmonova"
+  ],
+  "thumbnail_prompt": "Dramatic golden sepia graphic novel illustration of Dilbar Abdurahmonova",
+  "scenes": [
+    {
+      "scene_id": 1,
+      "motion": "zoom_in",
+      "narration": "How did Dilbar Abdurahmonova forever change the destiny of Central Asia and the world?",
+      "subtitle": "THE SECRET OF DILBAR ABDURAHMONOVA",
+      "image_prompt": "An ancient parchment scroll with a glowing golden question mark in the foreground, while a dramatic historical vision of Dilbar Abdurahmonova in medieval Samarkand rises in golden smoke above.",
+      "full_styled_prompt": "Warm golden-amber and sepia-toned historical graphic novel illustration, bold hand-drawn black ink line art with rich warm watercolor and ochre shading, glowing golden dust particles and sunbeams, cinematic medieval Central Asian / Silk Road atmosphere, intricate historical clothing and turquoise-domed architecture, dramatic storytelling composition, NO text or letters inside the artwork -- An ancient parchment scroll with a glowing golden question mark in the foreground, while a dramatic historical vision of Dilbar Abdurahmonova in medieval Samarkand rises in golden smoke above., 2D historical comic book art style, warm golden color palette, high contrast ink outlines, masterpiece illustration",
+      "image_file": "scene_01.jpg",
+      "image_source": "free_flux_api",
+      "audio_file": "/Users/sohibjonsulaymonov/kodlar/kontentor/projects/alisher_navoiy_hayoti/audio/scene_01.mp3",
+      "duration": 5.974,
+      "start_time": 0.0,
+      "end_time": 5.974
+    },
+    {
+      "scene_id": 2,
+      "motion": "zoom_out",
+      "narration": "Dilbar Gʻulomovna Abdurahmonova was a Soviet and Uzbek conductor, violinist, educator, and People's Artist of the USSR (1977).",
+      "subtitle": "DILBAR GʻULOMOVNA ABDURAHMONOVA WAS A SOVIET",
+      "image_prompt": "Epic medieval Central Asian historical scene illustrating: Dilbar Gʻulomovna Abdurahmonova was a Soviet and Uzbek conductor, violinist, educator, and People's Artist of the USSR (1977)., ornate Silk Road architecture and authentic historical attire.",
+      "full_styled_prompt": "Warm golden-amber and sepia-toned historical graphic novel illustration, bold hand-drawn black ink line art with rich warm watercolor and ochre shading, glowing golden dust particles and sunbeams, cinematic medieval Central Asian / Silk Road atmosphere, intricate historical clothing and turquoise-domed architecture, dramatic storytelling composition, NO text or letters inside the artwork -- Epic medieval Central Asian historical scene illustrating: Dilbar Gʻulomovna Abdurahmonova was a Soviet and Uzbek conductor, violinist, educator, and People's Artist of the USSR (1977)., ornate Silk Road architecture and authentic historical attire., 2D historical comic book art style, warm golden color palette, high contrast ink outlines, masterpiece illustration",
+      "image_file": "scene_02.jpg",
+      "image_source": "offline_procedural_sepia_canvas",
+      "audio_file": "/Users/sohibjonsulaymonov/kodlar/kontentor/projects/alisher_navoiy_hayoti/audio/scene_02.mp3",
+      "duration": 10.212,
+      "start_time": 5.974,
+      "end_time": 16.186
+    },
+    {
+      "scene_id": 3,
+      "motion": "pan_right",
+      "narration": "She was born on May 1, 1936, in Moscow and died on March 20, 2018, in Tashkent.",
+      "subtitle": "SHE WAS BORN ON MAY 1,",
+      "image_prompt": "Epic medieval Central Asian historical scene illustrating: She was born on May 1, 1936, in Moscow and died on March 20, 2018, in Tashkent., ornate Silk Road architecture and authentic historical attire.",
+      "full_styled_prompt": "Warm golden-amber and sepia-toned historical graphic novel illustration, bold hand-drawn black ink line art with rich warm watercolor and ochre shading, glowing golden dust particles and sunbeams, cinematic medieval Central Asian / Silk Road atmosphere, intricate historical clothing and turquoise-domed architecture, dramatic storytelling composition, NO text or letters inside the artwork -- Epic medieval Central Asian historical scene illustrating: She was born on May 1, 1936, in Moscow and died on March 20, 2018, in Tashkent., ornate Silk Road architecture and authentic historical attire., 2D historical comic book art style, warm golden color palette, high contrast ink outlines, masterpiece illustration",
+      "image_file": "scene_03.jpg",
+      "image_source": "offline_procedural_sepia_canvas",
+      "audio_file": "/Users/sohibjonsulaymonov/kodlar/kontentor/projects/alisher_navoiy_hayoti/audio/scene_03.mp3",
+      "duration": 8.214,
+      "start_time": 16.186,
+      "end_time": 24.4
+    },
+    {
+      "scene_id": 4,
+      "motion": "pan_left",
+      "narration": "She was the first female conductor in Uzbekistan.",
+      "subtitle": "SHE WAS THE FIRST FEMALE CONDUCTOR",
+      "image_prompt": "Epic medieval Central Asian historical scene illustrating: She was the first female conductor in Uzbekistan., ornate Silk Road architecture and authentic historical attire.",
+      "full_styled_prompt": "Warm golden-amber and sepia-toned historical graphic novel illustration, bold hand-drawn black ink line art with rich warm watercolor and ochre shading, glowing golden dust particles and sunbeams, cinematic medieval Central Asian / Silk Road atmosphere, intricate historical clothing and turquoise-domed architecture, dramatic storytelling composition, NO text or letters inside the artwork -- Epic medieval Central Asian historical scene illustrating: She was the first female conductor in Uzbekistan., ornate Silk Road architecture and authentic historical attire., 2D historical comic book art style, warm golden color palette, high contrast ink outlines, masterpiece illustration",
+      "image_file": "scene_04.jpg",
+      "image_source": "offline_procedural_sepia_canvas",
+      "audio_file": "/Users/sohibjonsulaymonov/kodlar/kontentor/projects/alisher_navoiy_hayoti/audio/scene_04.mp3",
+      "duration": 2.859,
+      "start_time": 24.4,
+      "end_time": 27.259
+    }
+  ]
+}

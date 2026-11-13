@@ -1,0 +1,30 @@
+{
+  "youtube_placement": "YouTube Shorts Feed (9:16 Vertical, <=60s)",
+  "is_shorts": true,
+  "api_body": {
+    "snippet": {
+      "title": "Amir Temur: Conqueror or Creator of a Golden Age? #Shorts",
+      "description": "Amir Temur forged a vast empire through conquest—and helped set the stage for the Timurid Renaissance. Discover the paradox behind the ruler who reshaped Central Asia and Samarkand. #AmirTemur #CentralAsia #Samarkand #History #Shorts",
+      "tags": [
+        "Amir Temur",
+        "Timur",
+        "Central Asia",
+        "Samarkand",
+        "Timurid Empire",
+        "Timurid Renaissance",
+        "History",
+        "YouTube Shorts",
+        "Shorts",
+        "YouTubeShorts"
+      ],
+      "categoryId": "27",
+      "defaultLanguage": "en",
+      "defaultAudioLanguage": "en"
+    },
+    "status": {
+      "privacyStatus": "public",
+      "selfDeclaredMadeForKids": false
+    }
+  },
+  "upload_status": "ready_for_oauth_upload"
+}

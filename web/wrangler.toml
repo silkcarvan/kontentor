@@ -1,0 +1,32 @@
+name = "kontentor-web"
+# account_id = "YOUR_CLOUDFLARE_ACCOUNT_ID" # Loaded via CF_ACCOUNT_ID in .env
+main = "src/index.ts"
+compatibility_date = "2026-05-01"
+compatibility_flags = ["nodejs_compat"]
+
+# 1. Cloudflare D1 Database (SQLite)
+[[d1_databases]]
+binding = "DB"
+database_name = "kontentor-db"
+database_id = "00000000-0000-0000-0000-000000000000" # Replace after running: npx wrangler d1 create kontentor-db
+migrations_dir = "migrations"
+
+# 2. Cloudflare R2 Storage (Images, MP3, SRT, Final MP4)
+[[r2_buckets]]
+binding = "MEDIA_BUCKET"
+bucket_name = "kontentor-media"
+
+# 3. Cloudflare Workers AI (FLUX.1 Schnell & Clef 27B)
+[ai]
+binding = "AI"
+
+# 4. Public Environment Variables (Secrets like LUNA_API_KEY & GEMINI_API_KEY added via `wrangler secret put`)
+[vars]
+APP_ENV = "closed_beta"
+PUBLIC_SIGNUP_ENABLED = "false"
+LUNA_BASE_URL = "https://api.experientiallabs.ai/v1"
+LUNA_MODEL = "gpt-6-luna"
+GEMINI_MODEL = "gemini-4-hydrogen"
+FLUX_MODEL = "@cf/black-forest-labs/flux-1-schnell"
+MODERATION_MODEL = "@cf/cloudflare/clef-27b"
+RENDER_WORKER_URL = "http://localhost:8080"

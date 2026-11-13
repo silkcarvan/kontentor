@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontentor AI — Central Asian History Documentary & YouTube Automation Studio</title>
+  <meta name="description" content="Kontentor AI: Autonomous YouTube Documentary Studio powered by GPT-6 Luna, Google Gemini 4 Hydrogen, Cloudflare FLUX, and Edge-TTS. Explore Central Asian History, Samarkand, Bukhara, Amir Temur, and Ulugh Beg." />
+  <meta name="keywords" content="Kontentor AI, Central Asian History, Amir Temur, Samarkand History, Ulugh Beg, Al-Khwarizmi, Ibn Sina, Silk Road Documentary, AI YouTube Automation, GPT-6 Luna, Gemini 4 Hydrogen" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="google-site-verification" content="GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE" />
+  <link rel="canonical" href="https://kontentor.ai/" />
+
+  <!-- OpenGraph / Facebook / Telegram Rich Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kontentor AI — Autonomous Central Asian History YouTube Studio" />
+  <meta property="og:description" content="100% Autonomous Historical Documentaries & Shorts powered by GPT-6 Luna, Gemini 4 Hydrogen, and Cloudflare FLUX." />
+  <meta property="og:url" content="https://kontentor.ai/" />
+
+  <!-- Schema.org JSON-LD for Google Search #1 Rich Snippets & Video Carousel -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "Kontentor AI Studio",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Web, Cloud",
+        "description": "Autonomous AI YouTube Documentary & Shorts Production Platform for Central Asian History, Rulers, Scholars, and Tourism.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "VideoObject",
+        "name": "Amir Temur: How a Shepherd's Son Built the Unstoppable Timurid Empire",
+        "description": "How Amir Temur (Tamerlane) united 27 lands and transformed Samarkand into the jewel of the Silk Road.",
+        "thumbnailUrl": "https://kontentor.ai/projects/amir_temur/images/scene_01.jpg",
+        "uploadDate": "2026-11-12T20:00:00+05:00",
+        "duration": "PT43S",
+        "contentUrl": "https://kontentor.ai/output/amir_temur_short.mp4"
+      }
+    ]
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --sidebar: #11141d;
+      --panel: #161b26;
+      --panel-2: #1c2230;
+      --border: #262e42;
+      --gold: #eab308;
+      --gold-soft: rgba(234, 179, 8, 0.14);
+      --green: #10b981;
+      --blue: #3b82f6;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 300px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 14px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #eab308, #b45309);
+      color: #000;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .brand h1 { font-size: 15px; font-weight: 700; }
+    .brand span { font-size: 11px; color: var(--muted); display: block; }
+    .new-chat-btn {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      background: var(--gold-soft);
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .nav-tabs { display: flex; flex-direction: column; gap: 6px; }
+    .nav-btn {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+    }
+    .nav-btn.active {
+      background: var(--panel-2);
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .sidebar-section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    select {
+      width: 100%;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+    .stack-list { display: flex; flex-direction: column; gap: 6px; }
+    .stack-badge {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: #0d1018;
+      border: 1px solid var(--border);
+    }
+    .dot-ok { color: var(--green); font-weight: 700; font-size: 11px; }
+    .dot-warn { color: var(--gold); font-weight: 700; font-size: 11px; }
+    .recent-list { display: flex; flex-direction: column; gap: 5px; max-height: 150px; overflow-y: auto; }
+    .recent-item {
+      background: #0d1018;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 7px;
+      padding: 7px 9px;
+      font-size: 11.5px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .main { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .topbar {
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border);
+      background: #0f121a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .topbar-title { font-size: 14px; font-weight: 700; }
+    .credits-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: var(--gold-soft);
+      color: var(--gold);
+      border: 1px solid rgba(234, 179, 8, 0.35);
+    }
+    .view-panel { display: none; flex: 1; overflow: hidden; flex-direction: column; }
+    .view-panel.active { display: flex; }
+    .chat-stream {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 980px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .msg { display: flex; gap: 14px; align-items: flex-start; }
+    .msg.user { flex-direction: row-reverse; }
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .avatar.ai { background: linear-gradient(135deg, #eab308, #b45309); color: #000; }
+    .avatar.user { background: var(--blue); color: #fff; }
+    .bubble {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      max-width: 88%;
+      font-size: 13.5px;
+      line-height: 1.55;
+    }
+    .msg.user .bubble { background: #1d2842; border-color: #2f4370; }
+    .bubble h3 { font-size: 15px; margin-bottom: 6px; color: var(--gold); }
+    .meta-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+    .meta-tag {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: #0c0e14;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .video-card {
+      margin-top: 12px;
+      background: #0a0c10;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .video-card video { width: 220px; max-height: 390px; border-radius: 10px; background: #000; }
+    .script-box {
+      flex: 1;
+      min-width: 260px;
+      max-height: 390px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .scene-row {
+      display: flex;
+      gap: 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 8px;
+      align-items: center;
+    }
+    .scene-row img { width: 54px; height: 82px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: #000; }
+    .scene-text { font-size: 12px; }
+    .scene-text strong { color: var(--gold); display: block; font-size: 11px; }
+    .composer-wrap { border-top: 1px solid var(--border); background: #0f121a; padding: 14px 24px; }
+    .composer-inner { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      cursor: pointer;
+    }
+    .chip:hover { color: var(--gold); border-color: var(--gold); }
+    .input-bar {
+      display: flex;
+      gap: 10px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 10px;
+    }
+    .input-bar input { flex: 1; background: transparent; border: none; color: var(--text); font-size: 14px; outline: none; }
+    .send-btn {
+      background: linear-gradient(135deg, #eab308, #ca8a04);
+      color: #000;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .analytics-scroll { flex: 1; overflow-y: auto; padding: 24px; }
+    .analytics-inner { max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+    .kpi-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; }
+    .kpi-label { font-size: 11px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .kpi-value { font-size: 26px; font-weight: 800; }
+    .kpi-trend { font-size: 11.5px; color: var(--green); margin-top: 4px; font-weight: 600; }
+    .analytics-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 13px; padding: 18px; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .card-title { font-size: 15px; font-weight: 700; }
+    .btn-train {
+      background: var(--gold-soft);
+      border: 1px solid rgba(234, 179, 8, 0.4);
+      color: var(--gold);
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .insight-item { background: #0c0f17; border-left: 3px solid var(--gold); padding: 10px 12px; border-radius: 7px; font-size: 12.5px; margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th, td { text-align: left; padding: 11px 10px; border-bottom: 1px solid var(--border); }
+    th { font-size: 11px; color: var(--muted); text-transform: uppercase; }
+    .pill { padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; background: rgba(59, 130, 246, 0.16); color: #60a5fa; }
+    .progress-bar { width: 120px; height: 6px; background: #0a0c10; border-radius: 999px; overflow: hidden; margin-top: 4px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #eab308); }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">K</div>
+      <div>
+        <h1 id="channelTitle">Chronicles of Central Asia</h1>
+        <span>Kontentor Autonomous Studio</span>
+      </div>
+    </div>
+    <button class="new-chat-btn" onclick="startNewChat()">+ Yangi Video / Chat</button>
+    <div class="nav-tabs">
+      <button id="tabChatBtn" class="nav-btn active" onclick="switchTab('chat')">💬 AI Chat & Video Studio</button>
+      <button id="tabAnalyticsBtn" class="nav-btn" onclick="switchTab('analytics')">📊 Facebook Analitika</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="section-label">Video Sozlamalari</div>
+      <select id="formatSelect">
+        <option value="short">Shorts 9:16 (<=60s | #Shorts)</option>
+        <option value="long">Long 16:9 (Documentary)</option>
+      </select>
+      <select id="voiceSelect">
+        <option value="en-US-AndrewNeural">Edge-TTS: Andrew (Natural US)</option>
+        <option value="en-US-BrianNeural">Edge-TTS: Brian (Storyteller)</option>
+        <option value="mark">Mark Style (Deep Narrator)</option>
+      </select>
+    </div>
+    <div class="sidebar-section">
+      <div class="section-label">5-Bosqichli Ulangan Tizim</div>
+      <div class="stack-list" id="stackList"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="section-label">Tayyor Videolar (Output)</div>
+      <div class="recent-list" id="recentVideosList"></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">💬 AI Chat & Avtonom Video Studio (GPT-6 Luna + Cloudflare FLUX + Edge-TTS)</div>
+      <div class="credits-pill" id="creditsBadge">Credits: 98 Shorts | 20 Long</div>
+    </div>
+
+    <section id="chatView" class="view-panel active">
+      <div class="chat-stream" id="chatStream"></div>
+      <div class="composer-wrap">
+        <div class="composer-inner">
+          <div class="chips">
+            <span class="chip" onclick="useQuickTopic('Mirzo Ulugh Beg')">🔭 Mirzo Ulugh Beg</span>
+            <span class="chip" onclick="useQuickTopic('Al-Khwarizmi')">🧮 Al-Khwarizmi</span>
+            <span class="chip" onclick="useQuickTopic('Ibn Sina (Avicenna)')">⚕️ Ibn Sina (Avicenna)</span>
+            <span class="chip" onclick="useQuickTopic('Queen Tomyris')">⚔️ Queen Tomyris</span>
+          </div>
+          <div class="input-bar">
+            <input id="topicInput" type="text" placeholder="Mavzu yozing yoki bo'sh qoldirib Enter bosing — AI 0 dan video qiladi..." onkeydown="if(event.key==='Enter') sendGenerateMessage()" />
+            <button id="sendBtn" class="send-btn" onclick="sendGenerateMessage()">0 dan Video Qilish</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="analyticsView" class="view-panel">
+      <div class="analytics-scroll">
+        <div class="analytics-inner">
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-label">Total Channel Views</div>
+              <div class="kpi-value" id="kpiViews">0</div>
+              <div class="kpi-trend">+28.4% vs last 7 days</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Impressions CTR (%)</div>
+              <div class="kpi-value" id="kpiCtr">0%</div>
+              <div class="kpi-trend">Golden Sepia Thumbnails</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Avg Audience Retention</div>
+              <div class="kpi-value" id="kpiRetention">0%</div>
+              <div class="kpi-trend">3s Visual Hook Performance</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Est. Monetization Revenue</div>
+              <div class="kpi-value" id="kpiRevenue">$0</div>
+              <div class="kpi-trend">English History RPM (~$6.40/1K)</div>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Audience Retention Curve (Second-by-Second)</div>
+                <span class="pill">Meta Creator Studio View</span>
+              </div>
+              <svg viewBox="0 0 640 210" style="width:100%; background:#0b0e15; border-radius:10px; border:1px solid #262d42;">
+                <line x1="40" y1="30" x2="610" y2="30" stroke="#1f2937" stroke-dasharray="4"/>
+                <line x1="40" y1="90" x2="610" y2="90" stroke="#1f2937" stroke-dasharray="4"/>
+                <line x1="40" y1="150" x2="610" y2="150" stroke="#1f2937" stroke-dasharray="4"/>
+                <text x="8" y="34" fill="#9ca3af" font-size="10">100%</text>
+                <text x="8" y="94" fill="#9ca3af" font-size="10">75%</text>
+                <text x="8" y="154" fill="#9ca3af" font-size="10">50%</text>
+                <polygon points="40,30 140,42 260,48 390,62 510,70 600,66 600,170 40,170" fill="rgba(234,179,8,0.12)" />
+                <polyline fill="none" stroke="#eab308" stroke-width="3.5" points="40,30 140,42 260,48 390,62 510,70 600,66" />
+              </svg>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">AI O'zini-O'zi O'qitish Xotirasi</div>
+                <button class="btn-train" onclick="triggerSelfTraining()">Analitikadan O'rganish (Train)</button>
+              </div>
+              <div id="lessonsList"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Kontent Samaradorligi Jadvali (Facebook Ads Manager Style)</div>
+              <span class="pill" id="publishedCount">0 Videos</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Video Mavzusi</th>
+                  <th>Format</th>
+                  <th>Holati</th>
+                  <th>Views</th>
+                  <th>CTR (%)</th>
+                  <th>Retention (%)</th>
+                  <th>AI Xulosasi</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let initialChatRendered = false;
+
+    function switchTab(tab) {
+      document.getElementById('chatView').classList.toggle('active', tab === 'chat');
+      document.getElementById('analyticsView').classList.toggle('active', tab === 'analytics');
+      document.getElementById('tabChatBtn').classList.toggle('active', tab === 'chat');
+      document.getElementById('tabAnalyticsBtn').classList.toggle('active', tab === 'analytics');
+    }
+
+    function useQuickTopic(topic) {
+      document.getElementById('topicInput').value = topic;
+      document.getElementById('topicInput').focus();
+    }
+
+    function startNewChat() {
+      switchTab('chat');
+      document.getElementById('chatStream').innerHTML = '';
+      appendAiMessage(
+        'Yangi sessiya ochildi!',
+        'Markaziy Osiyo tarixi, podshohlari yoki olimlari bo‘yicha mavzu yozing — 5 bosqichda 0 dan video tayyorlab beraman.',
+        [],
+        null,
+        null
+      );
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function appendUserMessage(text) {
+      const stream = document.getElementById('chatStream');
+      const div = document.createElement('div');
+      div.className = 'msg user';
+      div.innerHTML = `<div class="avatar user">U</div><div class="bubble">${escapeHtml(text)}</div>`;
+      stream.appendChild(div);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function appendAiMessage(title, subtitleText, tags, videoUrl, scenes, imageBaseDir) {
+      const stream = document.getElementById('chatStream');
+      const div = document.createElement('div');
+      div.className = 'msg ai';
+      const tagsHtml = (tags || []).map(t => `<span class="meta-tag">${escapeHtml(t)}</span>`).join('');
+      let mediaHtml = '';
+      if (videoUrl) {
+        const scenesHtml = (scenes || []).map(sc => {
+          const imgPath = `${imageBaseDir || '/projects/amir_temur/images'}/${sc.image_file}`;
+          return `
+            <div class="scene-row">
+              <img src="${imgPath}" alt="Scene ${sc.scene_id}" loading="lazy" />
+              <div class="scene-text">
+                <strong>Scene ${sc.scene_id} (${sc.duration || 4}s • ${sc.motion || 'zoom_in'})</strong>
+                <div>${escapeHtml(sc.narration || '')}</div>
+              </div>
+            </div>`;
+        }).join('');
+        mediaHtml = `<div class="video-card"><video src="${videoUrl}" controls playsinline></video><div class="script-box">${scenesHtml}</div></div>`;
+      }
+      div.innerHTML = `<div class="avatar ai">K</div><div class="bubble"><h3>${escapeHtml(title)}</h3><div>${escapeHtml(subtitleText)}</div>${tagsHtml ? `<div class="meta-tags">${tagsHtml}</div>` : ''}${mediaHtml}</div>`;
+      stream.appendChild(div);
+      stream.scrollTop = stream.scrollHeight;
+      return div;
+    }
+
+    function renderStackBadges(stack) {
+      const items = [
+        { label: '1. GPT-6 Luna', ok: stack.step1_luna },
+        { label: '2. Cloudflare FLUX', ok: stack.step2_cloudflare_flux },
+        { label: '3. Edge-TTS + SRT', ok: stack.step3_edge_tts },
+        { label: '4. FFmpeg Zoom', ok: stack.step4_ffmpeg },
+        { label: '5. YouTube Auto-Router', ok: stack.step5_youtube_router },
+      ];
+      document.getElementById('stackList').innerHTML = items.map(i => `
+        <div class="stack-badge">
+          <span>${i.label}</span>
+          <span class="${i.ok ? 'dot-ok' : 'dot-warn'}">${i.ok ? '● Ulangan' : '○ Fallback'}</span>
+        </div>`).join('');
+    }
+
+    async function loadDashboard() {
+      const res = await fetch('/api/dashboard');
+      const data = await res.json();
+      document.getElementById('channelTitle').textContent = data.channel.channel_title;
+      document.getElementById('creditsBadge').textContent = `Credits: ${data.kpis.shorts_credits} Shorts | ${data.kpis.long_credits} Long`;
+      document.getElementById('kpiViews').textContent = data.kpis.total_views.toLocaleString();
+      document.getElementById('kpiCtr').textContent = data.kpis.avg_ctr_percent + '%';
+      document.getElementById('kpiRetention').textContent = data.kpis.avg_retention_percent + '%';
+      document.getElementById('kpiRevenue').textContent = '$' + data.kpis.estimated_revenue_usd;
+      document.getElementById('publishedCount').textContent = `${data.kpis.published_videos} Videos`;
+
+      renderStackBadges(data.connected_stack || {});
+
+      const recentEl = document.getElementById('recentVideosList');
+      recentEl.innerHTML = '';
+      (data.output_videos || []).forEach(vUrl => {
+        const name = vUrl.split('/').pop();
+        const btn = document.createElement('button');
+        btn.className = 'recent-item';
+        btn.textContent = '🎬 ' + name;
+        btn.onclick = () => {
+          switchTab('chat');
+          appendAiMessage('Tayyor Video: ' + name, 'Saqlangan MP4 fayl:', ['Local Output'], vUrl, []);
+        };
+        recentEl.appendChild(btn);
+      });
+
+      if (!initialChatRendered) {
+        initialChatRendered = true;
+        const sb = data.latest_storyboard || {};
+        const amirVideo = (data.output_videos || []).find(v => v.includes('amir_temur')) || (data.output_videos || [])[0];
+        if (amirVideo && sb.scenes) {
+          appendUserMessage('Amir Temur haqida 0 dan inglizcha Shorts video yaratib ber.');
+          appendAiMessage(
+            sb.title || 'Amir Temur #Shorts',
+            '5-bosqichli pipeline yakunlandi! GPT-6 Luna ssenariysi, 7 ta HD kadr, Edge-TTS (Andrew) ovoz va subtitrlar bilan tayyor.',
+            ['Model: ' + (sb.model_used || 'gpt-6-luna'), 'Voice: en-US-AndrewNeural', 'Scenes: ' + sb.scenes.length],
+            amirVideo,
+            sb.scenes,
+            '/projects/amir_temur/images'
+          );
+        }
+      }
+
+      const lessonsEl = document.getElementById('lessonsList');
+      lessonsEl.innerHTML = '';
+      (data.style_memory.lessons_learned || []).slice(-4).reverse().forEach(l => {
+        const div = document.createElement('div');
+        div.className = 'insight-item';
+        div.innerHTML = `<strong>[${escapeHtml(l.date)}]</strong> ${escapeHtml(l.insight)}`;
+        lessonsEl.appendChild(div);
+      });
+
+      const tbody = document.getElementById('projectsTableBody');
+      tbody.innerHTML = '';
+      (data.projects || []).forEach(p => {
+        const ret = p.avg_view_percentage || 80;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight:600; max-width:260px;">${escapeHtml(p.topic)}</td>
+          <td><span class="pill">${escapeHtml((p.video_type || 'shorts').toUpperCase())}</span></td>
+          <td style="color:#10b981; font-weight:700;">${escapeHtml(p.status.toUpperCase())}</td>
+          <td>${(p.views || 0).toLocaleString()}</td>
+          <td style="color:#eab308; font-weight:700;">${p.ctr_percent || 9.5}%</td>
+          <td><div style="font-weight:700;">${ret}%</div><div class="progress-bar"><div class="progress-fill" style="width:${Math.min(100, ret)}%"></div></div></td>
+          <td style="color:var(--muted); max-width:320px;">${escapeHtml(p.learned_rule || '')}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function sendGenerateMessage() {
+      const input = document.getElementById('topicInput');
+      const btn = document.getElementById('sendBtn');
+      const topic = input.value.trim();
+      const format = document.getElementById('formatSelect').value;
+      const voice = document.getElementById('voiceSelect').value;
+      switchTab('chat');
+      appendUserMessage(topic ? `${topic} (${format} • ${voice})` : `Avtomatik navbatdagi mavzu (${format} • ${voice})`);
+      input.value = '';
+      btn.disabled = true;
+      const loadingEl = appendAiMessage('⏳ AI Ishlayapti (5 Bosqich)...', 'Wikipedia → GPT-6 Luna → Cloudflare FLUX → Edge-TTS + .srt → FFmpeg...', [format.toUpperCase(), voice], null, null);
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic, format, voice })
+        });
+        const data = await res.json();
+        loadingEl.remove();
+        if (data.ok) {
+          const r = data.result;
+          const relProjects = r.project_dir.includes('/projects/')
+            ? '/projects/' + r.project_dir.split('/projects/')[1] + '/images'
+            : '/projects/amir_temur/images';
+          appendAiMessage(
+            r.topic,
+            `Tayyor! ${r.youtube_routing || ''}`,
+            ['Model: ' + (r.model_used || 'gpt-6-luna'), 'Voice: ' + (r.voice_used || voice), 'Duration: ' + (r.video?.total_duration_seconds || 0) + 's'],
+            data.video_url,
+            r.scenes || [],
+            relProjects
+          );
+          await loadDashboard();
+        } else {
+          appendAiMessage('Xatolik', data.error || 'Unknown error', [], null, null);
+        }
+      } catch (err) {
+        loadingEl.remove();
+        appendAiMessage('Ulanish xatoligi', err.message, [], null, null);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function triggerSelfTraining() {
+      await fetch('/api/train', { method: 'POST' });
+      await loadDashboard();
+    }
+
+    loadDashboard();
+  </script>
+</body>
+</html>
