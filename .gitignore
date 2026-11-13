@@ -11,7 +11,9 @@ __pycache__/
 # Local SQLite & Build Artifacts
 data/*.sqlite
 output/*.mp4
+!output/amir_temur_short.mp4
 projects/*/build/
 projects/*/audio/*.mp3
 projects/*/images/*.jpg
+!projects/amir_temur/images/*.jpg
 .DS_Store

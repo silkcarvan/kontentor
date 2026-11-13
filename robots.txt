@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://silkcarvan.github.io/kontentor/sitemap.xml
+Sitemap: https://kontentor.ipakcarvoni.workers.dev/sitemap.xml
